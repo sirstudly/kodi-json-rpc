@@ -24,15 +24,27 @@ public class TestKodiJsonRpcService {
 
     @Test
     public void testUpdateTitle() throws Exception {
-        service.updateMovieTitle( 8, "8 Women (8 femmes)" );
+        service.updateMovieTitle( 3416, "Tomorrow (Demain)" );
         LOGGER.info( "DONE" );
     }
 
     @Test
     public void testGetMovieDetails() throws Exception {
         MovieEntry film = new MovieEntry();
-        film.setMovieId( 51 );
+        film.setMovieId( 3416 );
         service.populateMovieDetails( film );
         LOGGER.info( ToStringBuilder.reflectionToString( film ) );
     }
+
+    @Test
+    public void testRemoveMovie() throws Exception {
+        service.removeMovie( 3398 );
+    }
+
+    @Test
+    public void testRefreshVideoLibrary() throws Exception {
+        service.refreshVideoLibrary();
+        LOGGER.info( "DONE" );
+    }
+
 }

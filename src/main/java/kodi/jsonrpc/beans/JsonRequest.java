@@ -3,7 +3,7 @@ package kodi.jsonrpc.beans;
 
 import com.google.gson.annotations.SerializedName;
 
-public abstract class JsonRequest {
+public class JsonRequest {
 
     @SerializedName( "jsonrpc" )
     private String version = "2.0";
@@ -13,6 +13,14 @@ public abstract class JsonRequest {
 
     @SerializedName( "method" )
     private String method;
+
+    public JsonRequest() {
+        // default constructor
+    }
+
+    public JsonRequest( String method ) {
+        setMethod( method );
+    }
 
     public String getVersion() {
         return version;

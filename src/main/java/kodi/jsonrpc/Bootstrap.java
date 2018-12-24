@@ -29,6 +29,7 @@ public class Bootstrap {
                     .forEach( m -> {
                         if ( m.isForeignTitle() && false == m.isAlreadyFormatted() ) {
                             try {
+                                LOGGER.info( "Updating movie title for " + m.getMovieId() + " to " + m.getTitle() + " (" + m.getOriginalTitle() + ")" );
                                 service.updateMovieTitle( m.getMovieId(), m.getTitle() + " (" + m.getOriginalTitle() + ")" );
                             }
                             catch ( IOException ex ) {

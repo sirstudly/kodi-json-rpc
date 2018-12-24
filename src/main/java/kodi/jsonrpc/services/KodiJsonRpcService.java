@@ -25,7 +25,9 @@ import com.google.gson.JsonObject;
 
 import kodi.jsonrpc.beans.GetMovieDetailsRequest;
 import kodi.jsonrpc.beans.GetMoviesRequest;
+import kodi.jsonrpc.beans.JsonRequest;
 import kodi.jsonrpc.beans.MovieEntry;
+import kodi.jsonrpc.beans.RemoveMovieRequest;
 import kodi.jsonrpc.beans.SetMovieDetailsRequest;
 
 @Component
@@ -92,6 +94,34 @@ public class KodiJsonRpcService {
         film.setOriginalTitle( details.get( "originaltitle" ).getAsString() );
         film.setTitle( details.get( "title" ).getAsString() );
         film.setSortTitle( details.get( "sorttitle" ).getAsString() );
+    }
+
+    /**
+     * Removes the given film.
+     * 
+     * @param movieId unique movie ID
+     * @throws IOException on update error
+     */
+    public void removeMovie( int movieId ) throws IOException {
+        LOGGER.info( "Removing film " + movieId );
+        ResponseEntity<String> response = doPost( gson.toJson(
+                new RemoveMovieRequest( movieId ) ) );
+        String status = gson.fromJson( response.getBody(), JsonElement.class ).getAsJsonObject()
+                .get( "result" ).getAsString();
+        if ( false == "OK".equals( status ) ) {
+            throw new IOException( "Unexpected response: " + status );
+        }
+    }
+
+    public void refreshVideoLibrary() throws IOException {
+        LOGGER.info( "Refreshing video library" );
+        ResponseEntity<String> response = doPost( gson.toJson(
+                new JsonRequest( "VideoLibrary.Scan" ) ) );
+        String status = gson.fromJson( response.getBody(), JsonElement.class ).getAsJsonObject()
+                .get( "result" ).getAsString();
+        if ( false == "OK".equals( status ) ) {
+            throw new IOException( "Unexpected response: " + status );
+        }
     }
 
     /**
